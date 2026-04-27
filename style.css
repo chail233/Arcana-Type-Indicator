@@ -22,7 +22,6 @@ button:hover{
     color: white;
 }
 .questions-container{
-    /*display: none;*/
     margin: 0 auto;
     width: 70%;
     background-color: white;
@@ -33,8 +32,22 @@ button:hover{
     border-radius: 15px;
     font: bold 18px/1.5 "Helvetica Neue", Helvetica, Arial, sans-serif;
 }
+
+.fadein{
+    animation: fadeIn 2s forwards;
+}
+@keyframes fadeIn {
+    0%{
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+    100%{
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
 .result-container{
-    display: none;
+
 }
 .desc{
     font: normal 15px Verdana;
@@ -61,12 +74,21 @@ button:hover{
 .option:hover{
     scale: 1.3;
 }
+.selected{
+    background-color: darkslategray;
+    scale: 1.2;
+    transition: 0.5s;
+}
 footer{
     display: flex;
     text-align: center;
     justify-content: space-around;
     color: gray;
 }
-#submit{
+.submit{
+    display: block;
+    margin: 20px auto;
+}
+.hidden{
     display: none;
 }
