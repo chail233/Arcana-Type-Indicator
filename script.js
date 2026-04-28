@@ -69,14 +69,16 @@ const arcanas = [
     {id:20, name: "审判", score: 0},
     {id:21, name: "世界", score: 0},
 ]
+//排序用的映射表
+let arcanas_res;
 //问题对象表
 const questions =[
     {id:0, text:texts[0], from:"chail"},
     {id:1, text:texts[1], from:"chail"},
     {id:2, text:texts[2], from:"chail"},
-    // {id:3, text:texts[3], from:"chail"},
-    // {id:4, text:texts[4], from:"chail"},
-    // {id:5, text:texts[5], from:"chail"},
+    {id:3, text:texts[3], from:"chail"},
+    {id:4, text:texts[4], from:"chail"},
+    {id:5, text:texts[5], from:"chail"},
     // {id:6, text:texts[6], from:"chail"},
     // {id:7, text:texts[7], from:"chail"},
     // {id:8, text:texts[8], from:"chail"},
@@ -146,9 +148,10 @@ const results = [
     {id:21, name:"世界", description: descriptions[21]},
 ]
 //答案统计表
-let ans = new Array(42).fill(0);
+let ans;
 //问题数量
 const cnt = questions.length;
+//组织问题html
 function question_html(question) {
     return`
                 <div class="question-content">${question.id+1}.${question.text}</div>
@@ -168,13 +171,97 @@ function question_html(question) {
                     </div>
         `;
 }
+//组织第一答案html
+function  result_1_html(result){
+    return `
+                <h2>你的第一阿尔卡那是：</h2>
+                <span>${result.name}</span>
+                <h3>契合度：${Math.floor(arcanas_res[0].score*100/20)}</h3>
+                <p class="result_desc">${result.description}</p>
+            `
+}
+//组织其他答案html
+function  results_html(result, rank){
+    return `
+                <h2>${rank+1}.</h2>
+                <span>${result.name}</span>
+                <h3>契合度：${Math.floor(arcanas_res[rank].score*100/20)}</h3>
+                <p class="result_desc">${result.description}</p>
+            `
+}
 //初始化
 function init(){
+    //初始化答案分数表
+    ans = new Array(42).fill(0);
+    //重置分数
+    arcanas.forEach((arcana) => {arcana.score=0});
+    const brief = document.getElementById("brief");
+    const title_container = document.getElementById("title-container");
+    const questions_elm = document.getElementById("questions");
+    const btn_submit = document.getElementById("submit");
+    const result_container = document.getElementById("result-container");
+    const btn_again = document.getElementById("again");
+    const btn_start = document.getElementById("start");
+    title_container.classList.remove("hidden");
+    brief.classList.remove("hidden");
+    questions_elm.classList.add("hidden");
+    btn_submit.classList.add("hidden");
+    result_container.classList.add("hidden");
+    btn_again.classList.add("hidden");
+    btn_start.classList.remove("hidden");
+}
+//again方法
+function again(){
+    //初始化答案分数表
+    ans = new Array(42).fill(0);
+    //重置分数
+    arcanas.forEach((arcana) => {arcana.score=0});
+    //获取各容器并初始化
+    const title_container = document.getElementById("title-container");
+    const questions_elm = document.getElementById("questions");
+    const btn_submit = document.getElementById("submit");
+    const result_container = document.getElementById("result-container");
+    const btn_again = document.getElementById("again");
+    title_container.classList.remove("hidden");
+    questions_elm.classList.add("hidden");
+    btn_submit.classList.add("hidden");
+    result_container.classList.add("hidden");
+    btn_again.classList.add("hidden");
+
+    questions_elm.innerHTML = "";
+    result_container.innerHTML = "";
+    show_question();
+}
+//绑定事件
+function load_event(){
+    //提交事件
+    const btn_submit = document.getElementById("submit");
+    const questions_elm = document.getElementById("questions");
+    btn_submit.addEventListener("click", ()=>{
+        if(questions_elm.querySelectorAll(".selected").length === cnt){
+            cal_result();
+            show_result();
+        }
+        else{
+            if(DEBUG)console.log("存在未选择的问题");
+            alert("当前存在问题未选择，请作答所有问题。");
+        }
+    });
+    //开始事件
     const btn_start = document.getElementById("start");
     btn_start.addEventListener("click", show_question);
+    //再来一次
+    const btn_again = document.getElementById("again");
+    btn_again.addEventListener("click", again);
+    //首页
+    const btn_home = document.getElementById("home");
+    btn_home.addEventListener("click", init);
 }
 //渲染问题
 function show_question(){
+    //隐藏简介
+    const brief = document.getElementById("brief");
+    brief.classList.add("hidden");
     //先获取到问题容器
     const questions_elm = document.getElementById("questions");
     const btn_start = document.getElementById("start");
@@ -207,25 +294,34 @@ function show_question(){
     //显示结果按钮
     const btn_submit = document.getElementById("submit");
     btn_submit.classList.remove("hidden");
-    btn_submit.addEventListener("click", ()=>{
-       if(questions_elm.querySelectorAll(".selected").length === cnt){
-           cal_result();
-           show_result();
-       }
-       else{
-           if(DEBUG)console.log("存在未选择的问题");
-           alert("当前存在问题未选择，请作答所有问题。");
-       }
-    });
 }
 function show_result(){
-    //获取问题表
+    //获取各元素
+    const title_container = document.getElementById("title-container");
     const questions_elm = document.getElementById("questions");
     const btn_submit = document.getElementById("submit");
     const result_container = document.getElementById("result-container");
+    const btn_again = document.getElementById("again");
+    //重置显示状态
     questions_elm.classList.add("hidden");
     btn_submit.classList.add("hidden");
     result_container.classList.remove("hidden");
+    title_container.classList.add("hidden");
+    //显示第一阿尔卡那
+    const result_1_elm = document.createElement("div");
+    result_1_elm.classList.add("result_1");
+    result_1_elm.innerHTML = result_1_html(results[arcanas_res[0].id]);
+    result_container.appendChild(result_1_elm);
+    //显示其他的
+    for(let i=1;i<=4;++i){
+        if(DEBUG) console.log(results[arcanas_res[i].id]);
+        const result_elm = document.createElement("div");
+        result_elm.classList.add("results");
+        result_elm.innerHTML = results_html(results[arcanas_res[i].id], i);
+        result_container.appendChild(result_elm);
+    }
+    //处理再来一次
+    btn_again.classList.remove("hidden");
 }
 
 function cal_result(){
@@ -233,11 +329,11 @@ function cal_result(){
     document.querySelectorAll(".question").forEach((elem)=>{
         //获取当前问题id
         const qid = Number(elem.dataset.qid);
-        // if(DEBUG)console.log(`now qid= ${qid}`);
+        if(DEBUG)console.log(`now qid= ${qid}`);
         //获取分数
         const pans = Number(elem.querySelector(".selected").dataset.value);
         ans[qid] += pans;
-        // if(DEBUG)console.log(`pans=${pans}`);
+        if(DEBUG)console.log(`pans=${pans}`);
     });
     arcanas.forEach((arcana) => {
         //获取题目映射
@@ -247,5 +343,9 @@ function cal_result(){
         score_list.forEach((i)=>{arcana.score+=ans[i-1]});
         if(DEBUG) console.log(`${arcana.name}: ${arcana.score}`);
     });
+    //拷贝一个结果表并按分数降序排序
+    arcanas_res = arcanas;
+    arcanas_res.sort((a, b) => {return b.score-a.score});
 }
 init();
+load_event();
