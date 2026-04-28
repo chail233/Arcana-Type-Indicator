@@ -74,45 +74,45 @@ const questions =[
     {id:0, text:texts[0], from:"chail"},
     {id:1, text:texts[1], from:"chail"},
     {id:2, text:texts[2], from:"chail"},
-    {id:3, text:texts[3], from:"chail"},
-    {id:4, text:texts[4], from:"chail"},
-    {id:5, text:texts[5], from:"chail"},
-    {id:6, text:texts[6], from:"chail"},
-    {id:7, text:texts[7], from:"chail"},
-    {id:8, text:texts[8], from:"chail"},
-    {id:9, text:texts[9], from:"chail"},
-    {id:10, text:texts[10], from:"chail"},
-    {id:11, text:texts[11], from:"chail"},
-    {id:12, text:texts[12], from:"chail"},
-    {id:13, text:texts[13], from:"chail"},
-    {id:14, text:texts[14], from:"chail"},
-    {id:15, text:texts[15], from:"chail"},
-    {id:16, text:texts[16], from:"chail"},
-    {id:17, text:texts[17], from:"chail"},
-    {id:18, text:texts[18], from:"chail"},
-    {id:19, text:texts[19], from:"chail"},
-    {id:20, text:texts[20], from:"chail"},
-    {id:21, text:texts[21], from:"chail"},
-    {id:22, text:texts[22], from:"chail"},
-    {id:23, text:texts[23], from:"chail"},
-    {id:24, text:texts[24], from:"chail"},
-    {id:25, text:texts[25], from:"chail"},
-    {id:26, text:texts[26], from:"chail"},
-    {id:27, text:texts[27], from:"chail"},
-    {id:28, text:texts[28], from:"chail"},
-    {id:29, text:texts[29], from:"chail"},
-    {id:30, text:texts[30], from:"chail"},
-    {id:31, text:texts[31], from:"chail"},
-    {id:32, text:texts[32], from:"chail"},
-    {id:33, text:texts[33], from:"chail"},
-    {id:34, text:texts[34], from:"chail"},
-    {id:35, text:texts[35], from:"chail"},
-    {id:36, text:texts[36], from:"chail"},
-    {id:37, text:texts[37], from:"chail"},
-    {id:38, text:texts[38], from:"chail"},
-    {id:39, text:texts[39], from:"chail"},
-    {id:40, text:texts[40], from:"chail"},
-    {id:41, text:texts[41], from:"chail"},
+    // {id:3, text:texts[3], from:"chail"},
+    // {id:4, text:texts[4], from:"chail"},
+    // {id:5, text:texts[5], from:"chail"},
+    // {id:6, text:texts[6], from:"chail"},
+    // {id:7, text:texts[7], from:"chail"},
+    // {id:8, text:texts[8], from:"chail"},
+    // {id:9, text:texts[9], from:"chail"},
+    // {id:10, text:texts[10], from:"chail"},
+    // {id:11, text:texts[11], from:"chail"},
+    // {id:12, text:texts[12], from:"chail"},
+    // {id:13, text:texts[13], from:"chail"},
+    // {id:14, text:texts[14], from:"chail"},
+    // {id:15, text:texts[15], from:"chail"},
+    // {id:16, text:texts[16], from:"chail"},
+    // {id:17, text:texts[17], from:"chail"},
+    // {id:18, text:texts[18], from:"chail"},
+    // {id:19, text:texts[19], from:"chail"},
+    // {id:20, text:texts[20], from:"chail"},
+    // {id:21, text:texts[21], from:"chail"},
+    // {id:22, text:texts[22], from:"chail"},
+    // {id:23, text:texts[23], from:"chail"},
+    // {id:24, text:texts[24], from:"chail"},
+    // {id:25, text:texts[25], from:"chail"},
+    // {id:26, text:texts[26], from:"chail"},
+    // {id:27, text:texts[27], from:"chail"},
+    // {id:28, text:texts[28], from:"chail"},
+    // {id:29, text:texts[29], from:"chail"},
+    // {id:30, text:texts[30], from:"chail"},
+    // {id:31, text:texts[31], from:"chail"},
+    // {id:32, text:texts[32], from:"chail"},
+    // {id:33, text:texts[33], from:"chail"},
+    // {id:34, text:texts[34], from:"chail"},
+    // {id:35, text:texts[35], from:"chail"},
+    // {id:36, text:texts[36], from:"chail"},
+    // {id:37, text:texts[37], from:"chail"},
+    // {id:38, text:texts[38], from:"chail"},
+    // {id:39, text:texts[39], from:"chail"},
+    // {id:40, text:texts[40], from:"chail"},
+    // {id:41, text:texts[41], from:"chail"},
 ]
 //结果描述表
 const descriptions = [
@@ -145,6 +145,8 @@ const results = [
     {id:20, name:"审判", description: descriptions[20]},
     {id:21, name:"世界", description: descriptions[21]},
 ]
+//答案统计表
+let ans = new Array(42).fill(0);
 //问题数量
 const cnt = questions.length;
 function question_html(question) {
@@ -183,6 +185,8 @@ function show_question(){
         //创建元素来承载问题
         const question_elm  = document.createElement("div");
         question_elm.classList.add("question");
+        //设置当前问题的id
+        question_elm.dataset.qid = question.id;
         //添加html
         question_elm.innerHTML = question_html(question);
         //加入容器
@@ -205,7 +209,8 @@ function show_question(){
     btn_submit.classList.remove("hidden");
     btn_submit.addEventListener("click", ()=>{
        if(questions_elm.querySelectorAll(".selected").length === cnt){
-            show_result();
+           cal_result();
+           show_result();
        }
        else{
            if(DEBUG)console.log("存在未选择的问题");
@@ -221,5 +226,26 @@ function show_result(){
     questions_elm.classList.add("hidden");
     btn_submit.classList.add("hidden");
     result_container.classList.remove("hidden");
+}
+
+function cal_result(){
+    //计算结果
+    document.querySelectorAll(".question").forEach((elem)=>{
+        //获取当前问题id
+        const qid = Number(elem.dataset.qid);
+        // if(DEBUG)console.log(`now qid= ${qid}`);
+        //获取分数
+        const pans = Number(elem.querySelector(".selected").dataset.value);
+        ans[qid] += pans;
+        // if(DEBUG)console.log(`pans=${pans}`);
+    });
+    arcanas.forEach((arcana) => {
+        //获取题目映射
+        const score_list = scores[arcana.id];
+        //对于列表中每个题目，将其分数加到当前阿尔卡那的分数
+        //注意这里的i需要减一
+        score_list.forEach((i)=>{arcana.score+=ans[i-1]});
+        if(DEBUG) console.log(`${arcana.name}: ${arcana.score}`);
+    });
 }
 init();
