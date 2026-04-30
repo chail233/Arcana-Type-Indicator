@@ -1,4 +1,15 @@
 const DEBUG = true;
+//样式表
+const styles = [
+    "style.css",
+    "style_p3.css",
+    "style_yvkari.css",
+]
+const styles_cnt = styles.length;
+//当前样式索引
+let style_idx = 0;
+//全局样式表
+const style = document.getElementById("glo_theme");
 //文本存储
 const texts = [
     "一个拥有大地图与宏伟世界观，充满探索要素的RPG游戏总是吸引人的。谁不想急头白脸地去陌生的地方冒险呢？我很乐意去探索不熟悉的地方，甚至去山里面探索野路。",
@@ -182,6 +193,11 @@ function  results_html(result, rank){
                 <p class="result_desc">${result.description}</p>
             `
 }
+//切换主题方法
+function switch_style(){
+    style_idx = (style_idx+1)%styles_cnt;
+    style.href = styles[style_idx];
+}
 //初始化
 function init(){
     //初始化答案分数表
@@ -195,6 +211,8 @@ function init(){
     const result_container = document.getElementById("result-container");
     const btn_again = document.getElementById("again");
     const btn_start = document.getElementById("start");
+    style.href=styles[style_idx];
+    if (DEBUG) console.log(`loaded ${styles[style_idx]}`);
     title_container.classList.remove("hidden");
     brief.classList.remove("hidden");
     questions_elm.classList.add("hidden");
@@ -202,6 +220,7 @@ function init(){
     result_container.classList.add("hidden");
     btn_again.classList.add("hidden");
     btn_start.classList.remove("hidden");
+    load_event();
 }
 //again方法
 function again(){
@@ -249,6 +268,9 @@ function load_event(){
     //首页
     const btn_home = document.getElementById("home");
     btn_home.addEventListener("click", init);
+    //切换主题
+    const btn_theme = document.getElementById("theme");
+    btn_theme.addEventListener("click", switch_style);
 }
 //渲染问题
 function show_question(){
@@ -341,4 +363,3 @@ function cal_result(){
     arcanas_res.sort((a, b) => {return b.score-a.score});
 }
 init();
-load_event();

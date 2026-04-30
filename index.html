@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ATI-鉴定你的阿尔卡那</title>
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" id="glo_theme" href="">
 </head>
 
 <body>
@@ -18,11 +18,23 @@
             <li><button id="catalog">图鉴</button></li>
         </ul>
     </header>
+    <button id="theme" class="theme">切换</button>
     <div class="container">
         <div id="title-container" class="title-container">
             <h1>Arcana Type Indicator</h1>
             <h1>阿尔卡那类型测评</h1>
-            <p id="brief">简介内容</p>
+            <div id="brief" class="brief">
+                <p>如你所见，你可以在这里测评你的<i><strong>阿尔卡那</strong></i>（Arcana）类型。</p>
+                <p>什么是阿尔卡那？我们都知道<strong>塔罗牌</strong>，标准的塔罗牌由78张阿尔卡那牌组成，
+                    其中包括大阿尔卡那和小阿尔卡那。<strong>而大阿尔卡那有22张，也就是这个ATI的测评空间。</strong></p>
+                <p>如果你玩过《<i>女神异闻录</i>》系列的游戏，一定对这个不陌生。在游戏中，我们可以与一些NPC建立“社群”，
+                    这些NPC有着自己的阿尔卡那。例如《P5R》中的占卜师<i>御船千早</i>对应“命运”。</p>
+                <p>这样的设定也可以尝试应用到我们的世界，因此便有了这个ATI。在这个测评中，<strong>你需要完整回答42个问题！</strong>
+                    每个问题是一种描述，有5个选项（5个圆圈），从左至右的含义分别是：</p>
+                <p><strong>完全不符合、比较不符合、中立、比较符合、完全符合。</strong></p>
+                <p>在完成所有问题后，你就可以获得结果：<strong>最符合你的5个阿尔卡那</strong>。我们不能简单地用一个阿尔卡那就概括一个人，因此你得到的是5个。</p>
+                <p>当然，这只是一个只有一些简单计算的测评，请不要过于当真。</p>
+            </div>
             <button id="start">开始测评</button>
         </div>
         <div id="questions-container" class="questions-container">
