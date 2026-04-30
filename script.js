@@ -181,7 +181,7 @@ function  result_1_html(result){
                 <h2>你的第一阿尔卡那是：</h2>
                 <span>${result.name}</span>
                 <h3>契合度：${Math.floor(arcanas_res[0].score*100/20)}</h3>
-                <p class="result_desc">${result.description}</p>
+                <div class="result_desc">${result.description}</div>
             `
 }
 //组织其他答案html
@@ -190,7 +190,7 @@ function  results_html(result, rank){
                 <h2>${rank+1}.</h2>
                 <span>${result.name}</span>
                 <h3>契合度：${Math.floor(arcanas_res[rank].score*100/20)}</h3>
-                <p class="result_desc">${result.description}</p>
+                <div class="result_desc">${result.description}</div>
             `
 }
 //切换主题方法
@@ -271,6 +271,11 @@ function load_event(){
     //切换主题
     const btn_theme = document.getElementById("theme");
     btn_theme.addEventListener("click", switch_style);
+    //图鉴
+    const btn_catalog = document.getElementById("catalog");
+    btn_catalog.addEventListener("click", ()=>{
+        window.location.assign("catalog.html");
+    })
 }
 //渲染问题
 function show_question(){
