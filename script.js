@@ -155,13 +155,6 @@ const cnt = questions.length;
 function question_html(question) {
     return`
                 <div class="question-content">${question.id+1}.${question.text}</div>
-                    <div class="desc">
-                        <p>完全不符合</p>
-                        <p>比较不符合</p>
-                        <p>中立</p>
-                        <p>比较符合</p>
-                        <p>完全符合</p>
-                    </div>
                     <div class="options">
                         <button class="option" style="width: 55px;height: 55px" data-value="1"></button>
                         <button class="option" style="width: 45px;height: 45px" data-value="2"></button>
@@ -344,7 +337,7 @@ function cal_result(){
         if(DEBUG) console.log(`${arcana.name}: ${arcana.score}`);
     });
     //拷贝一个结果表并按分数降序排序
-    arcanas_res = arcanas;
+    arcanas_res = Array.from(arcanas);//用from方法进行拷贝，直接赋值的是引用
     arcanas_res.sort((a, b) => {return b.score-a.score});
 }
 init();
