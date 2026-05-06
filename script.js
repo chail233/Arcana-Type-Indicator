@@ -225,11 +225,11 @@ function  result_1_html(result){
                 <h2>你的第一阿尔卡那是：</h2>
                 <span>${result.name}</span>
                 <h3>契合度：${Math.floor(arcanas_res[0].score*100/20)}</h3>
-                <div class="result_desc">${result.description}</div>
             `
 }
 //组织答案描述
 function result_desc_html(rank){
+    if(rank>descriptions.length-1)return document.createElement("div");//这一行在开发中使用防止bug，开发结束删除
     let desc = document.createElement("div");
     desc.classList.add("result_desc");
     let desc_imgs = document.createElement("div");
@@ -395,14 +395,15 @@ function show_result(){
     const result_1_elm = document.createElement("div");
     result_1_elm.classList.add("result_1");
     result_1_elm.innerHTML = result_1_html(results[arcanas_res[0].id]);
+    result_1_elm.appendChild(result_desc_html(arcanas_res[0].id));
     result_container.appendChild(result_1_elm);
     //显示其他的
     for(let i=1;i<=4;++i){
-        if(DEBUG) console.log(results[arcanas_res[i].id]);
+        if(DEBUG) console.log(`结果：${results[arcanas_res[i].id]}`);
         const result_elm = document.createElement("div");
         result_elm.classList.add("results");
         result_elm.innerHTML = results_html(results[arcanas_res[i].id], i);
-        result_elm.appendChild(result_desc_html(i));
+        result_elm.appendChild(result_desc_html(arcanas_res[i].id));
         result_container.appendChild(result_elm);
     }
     //处理再来一次
