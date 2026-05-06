@@ -59,7 +59,7 @@ const texts = [
 const arcanas = [
     {id:0, name: "愚者", score: 0},
     {id:1, name: "魔术师", score: 0},
-    {id:2, name: "女祭司", score: 0},
+    {id:2, name: "女教皇", score: 0},
     {id:3, name: "女皇", score: 0},
     {id:4, name: "皇帝", score: 0},
     {id:5, name: "教皇", score: 0},
@@ -129,6 +129,50 @@ const questions =[
 ]
 //结果描述表
 const descriptions = [
+    //0.愚者
+    {
+        imgs:["res/arcanas/0.png", "res/arcanas/0-makoto.png", "res/arcanas/0-kotone.png"],
+        ps:["愚者是第一张卡牌，象征着开始与无限的可能性。",
+            "我想着大概可以理解为一个人十八岁的时候，这时候你风华正茂，有着宝贵的青春，有着太阳初升的活力，你有着无限的可能。",
+            "可以做到任何你想做的时，只不过现在才刚刚开始。",
+            "愚者有着无尽的探险精神，他身后闪耀的太阳代表着愚人的无穷智慧，那是一种在神学上来说的“疯狂的智慧”。而经常伴随着他的那只狗，我认为可以视为他的一种动物的原始欲望，大概可以称之为“现实世界”吧，你看他踮起的脚尖，他似乎并不关心他在哪儿，他的心中永远向着下一个目的地。所谓大智若愚就是这样的一种状态吧。"
+        ]
+    },
+    //1.魔术师
+    {
+        imgs:["res/arcanas/1.png","res/arcanas/1-mona.png"],
+        ps:[
+            "魔术师象征着创造与积极性，同时也代表着不成熟。",
+            "“魔术师（Magician）”的标准韦特塔罗牌面人物一手指天一手指地，头顶是无限的符号，腰间缠着象征智慧的蛇，而面前的桌子上则是象征着全部塔罗牌组的宝剑、圣杯、权杖和星币（构成世界的四要素），表示这张牌蕴含着强大的力量，而“魔术师”沟通天地的手势也指出他可能是“神的使者”。因此，被称为魔术师的人常常有着一个使命——引路人。",
+            "这张阿尔卡那的序号是Ⅰ，代表“愚人之旅”的开始。“愚人之旅”贯穿所有塔罗牌，而它的开始就是“魔术师”，这个人物相当于“愚人”的导师，开发、引导他使用自己不了解的强大的力量。"
+        ]
+    },
+    //2.女祭司
+    {
+        imgs:["res/arcanas/2.png", "res/arcanas/2-queen.png"],
+        ps:[
+            "女教皇象征精神上的成长，同时代表着传授必要知识的人。女教皇拥有很好的直觉与智慧。",
+            "假如说魔术师散发着阳刚的话，那么女教皇则是阴柔的代表，于静寂中凸现沉稳，与寡言中凸现睿智。女教皇内心是矛盾的，就像其坐在两根黑白分明的廊柱之间那样，静默却又波涛汹涌，在黑与白、日与夜、正义与邪恶的徘徊中体味生存的意义、感悟人世沧桑。"
+        ]
+    },
+    //3.女皇
+    {
+        imgs:["res/arcanas/3.png","res/arcanas/3-mitsuru.png"],
+        ps:[
+            "与女教皇不同，女皇象征着母性与生命力，代表母亲般的慈爱。",
+            "“女皇（Empress）”(又称“女帝”)的阿尔卡那象征“母性的集合”。标准韦特塔罗牌面的女性身上的珠宝代表金星——罗马神话中的维纳斯，也就是希腊神话中的爱与美之女神阿芙罗狄忒；而前方的象征丰收的麦田以及身后象征生命力的森林河流则代表着希腊神话中的谷物女神德墨忒尔。这张牌代表了爱、美、生命和丰收。",
+            "“女皇”代表了女性优雅、感性的一面，而“女教皇”则是理性的一面，所以“女皇”的行事方式也更加的热情和优雅。"
+        ]
+    },
+    //4.皇帝
+    {
+        imgs:["res/arcanas/4.png", "res/arcanas/4-kanji.png"],
+        ps:[
+            "皇帝是与女皇对应的卡牌，代表父性，统率与决断力。",
+            "你是一个对掌控力与秩序痴迷的人，你希望把事情纳入在自己的掌控之下，希望一切能够按你的规则来运行。你大概是一个比较有领导力的人。"
+        ]
+    },
+    //5.教皇
 
 ]
 //题目映射表
@@ -137,7 +181,7 @@ const scores = [[1, 23, 30, 36], [2, 5, 24, 26], [3, 25, 35, 38], [4, 18, 26, 29
 const results = [
     {id:0, name:"愚者", description: descriptions[0]},
     {id:1, name:"魔术师", description: descriptions[1]},
-    {id:2, name:"女祭司", description: descriptions[2]},
+    {id:2, name:"女教皇", description: descriptions[2]},
     {id:3, name:"女皇", description: descriptions[3]},
     {id:4, name:"皇帝", description: descriptions[4]},
     {id:5, name:"教皇", description: descriptions[5]},
@@ -184,13 +228,33 @@ function  result_1_html(result){
                 <div class="result_desc">${result.description}</div>
             `
 }
+//组织答案描述
+function result_desc_html(rank){
+    let desc = document.createElement("div");
+    desc.classList.add("result_desc");
+    let desc_imgs = document.createElement("div");
+    desc_imgs.classList.add("res_img");
+    descriptions[rank].imgs.forEach(img => {
+        let img_elm = document.createElement("img");
+        img_elm.classList.add("character");
+        img_elm.src = img.toString();
+        desc_imgs.appendChild(img_elm);
+    });
+    desc.appendChild(desc_imgs);
+    descriptions[rank].ps.forEach(p=>{
+        let p_elm = document.createElement("p");
+        p_elm.innerHTML = p.toString();
+        desc.appendChild(p_elm);
+    });
+    return desc;
+}
 //组织其他答案html
 function  results_html(result, rank){
+
     return `
                 <h2>${rank+1}.</h2>
                 <span>${result.name}</span>
                 <h3>契合度：${Math.floor(arcanas_res[rank].score*100/20)}</h3>
-                <div class="result_desc">${result.description}</div>
             `
 }
 //切换主题方法
@@ -338,6 +402,7 @@ function show_result(){
         const result_elm = document.createElement("div");
         result_elm.classList.add("results");
         result_elm.innerHTML = results_html(results[arcanas_res[i].id], i);
+        result_elm.appendChild(result_desc_html(i));
         result_container.appendChild(result_elm);
     }
     //处理再来一次

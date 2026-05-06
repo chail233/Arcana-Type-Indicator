@@ -199,8 +199,14 @@ button:hover{
 .result-container{
     margin-top: 50px;
 }
-.result_desc{
-
+.res_img{
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+}
+.character{
+    height: 300px;
+    width: auto;
 }
 .result_1{
     padding: 30px;
