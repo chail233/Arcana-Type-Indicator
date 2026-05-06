@@ -1,3 +1,14 @@
+//样式表
+const styles = [
+    "style.css",
+    "style_p3.css",
+    "style_yvkari.css",
+]
+const styles_cnt = styles.length;
+//当前样式索引
+let style_idx = 0;
+//全局样式表
+const style = document.getElementById("glo_theme");
 //结果描述表
 const descriptions = [
     //0.愚者
