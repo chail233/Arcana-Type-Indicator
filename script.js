@@ -10,6 +10,19 @@ const styles_cnt = styles.length;
 let style_idx = 0;
 //全局样式表
 const style = document.getElementById("glo_theme");
+function save_style(){
+    const data_style = {idx:style_idx};
+    localStorage.setItem("styleSettings", JSON.stringify(data_style));
+    if(DEBUG) console.log("样式保存");
+}
+function load_style(){
+    const data_style = localStorage.getItem("styleSettings");
+    if(data_style){
+        const data = JSON.parse(data_style);
+        style_idx = data.idx;
+        if(DEBUG) console.log(`存储样式加载`);
+    }
+}
 //文本存储
 const texts = [
     "一个拥有大地图与宏伟世界观，充满探索要素的RPG游戏总是吸引人的。谁不想急头白脸地去陌生的地方冒险呢？我很乐意去探索不熟悉的地方，甚至去山里面探索野路。",
@@ -390,6 +403,8 @@ function  results_html(result, rank){
 function switch_style(){
     style_idx = (style_idx+1)%styles_cnt;
     style.href = styles[style_idx];
+    if(DEBUG) console.log("样式切换");
+    save_style();
 }
 //初始化
 function init(){
@@ -404,6 +419,7 @@ function init(){
     const result_container = document.getElementById("result-container");
     const btn_again = document.getElementById("again");
     const btn_start = document.getElementById("start");
+    load_style();
     style.href=styles[style_idx];
     if (DEBUG) console.log(`loaded ${styles[style_idx]}`);
     title_container.classList.remove("hidden");

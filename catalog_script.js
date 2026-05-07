@@ -1,3 +1,4 @@
+let DEBUG = true;
 //样式表
 const styles = [
     "style.css",
@@ -9,6 +10,19 @@ const styles_cnt = styles.length;
 let style_idx = 0;
 //全局样式表
 const style = document.getElementById("glo_theme");
+function save_style(){
+    const data_style = {idx:style_idx};
+    localStorage.setItem("styleSettings", JSON.stringify(data_style));
+    if(DEBUG) console.log("样式保存");
+}
+function load_style(){
+    const data_style = localStorage.getItem("styleSettings");
+    if(data_style){
+        const data = JSON.parse(data_style);
+        style_idx = data.idx;
+        if(DEBUG) console.log(`存储样式加载`);
+    }
+}
 //结果描述表
 const descriptions = [
     //0.愚者
@@ -245,6 +259,7 @@ function  results_html(rank){
 function switch_style(){
     style_idx = (style_idx+1)%styles_cnt;
     style.href = styles[style_idx];
+    save_style();
 }
 //初始化
 function init(){
@@ -256,6 +271,8 @@ function init(){
         result_elm.appendChild(result_desc_html(i));
         result_container.appendChild(result_elm);
     }
+    load_style();
+    style.href = styles[style_idx];
     load_event();
 }
 //绑定事件
