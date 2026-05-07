@@ -1,4 +1,4 @@
-const DEBUG = true;
+const DEBUG = false;
 //样式表
 const styles = [
     "style.css",
@@ -547,7 +547,6 @@ function show_result(){
     result_container.appendChild(result_1_elm);
     //显示其他的
     for(let i=1;i<=4;++i){
-        if(DEBUG) console.log(`结果：${results[arcanas_res[i].id]}`);
         const result_elm = document.createElement("div");
         result_elm.classList.add("results");
         result_elm.innerHTML = results_html(results[arcanas_res[i].id], i);

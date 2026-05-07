@@ -1,4 +1,4 @@
-let DEBUG = true;
+let DEBUG = false;
 //样式表
 const styles = [
     "style.css",
