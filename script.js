@@ -409,6 +409,7 @@ function init(){
     title_container.classList.remove("hidden");
     brief.classList.remove("hidden");
     questions_elm.classList.add("hidden");
+    questions_elm.innerHTML = "";
     btn_submit.classList.add("hidden");
     result_container.classList.add("hidden");
     btn_again.classList.add("hidden");
@@ -507,6 +508,8 @@ function show_question(){
     //显示结果按钮
     const btn_submit = document.getElementById("submit");
     btn_submit.classList.remove("hidden");
+    //把页面归位到最上方
+    window.scroll(0,0);
 }
 function show_result(){
     //获取各元素
@@ -537,6 +540,7 @@ function show_result(){
     }
     //处理再来一次
     btn_again.classList.remove("hidden");
+    window.scroll(0,0);
 }
 
 function cal_result(){
