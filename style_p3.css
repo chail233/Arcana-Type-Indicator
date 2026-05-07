@@ -207,9 +207,29 @@ button:hover{
     justify-content: space-around;
     align-items: center;
 }
+@keyframes float {
+    0% {
+        transform: translateY(0);
+    }
+
+    50% {
+        transform: translateY(-10px);
+    }
+
+    100% {
+        transform: translateY(0);
+    }
+}
 .character{
     height: 300px;
     width: auto;
+    animation: float 3s ease-in-out infinite;
+}
+@media (max-width: 768px) {
+    .character{
+        width: 30%;
+        height: auto;
+    }
 }
 .result_1{
     padding: 30px;
@@ -240,7 +260,9 @@ button:hover{
 .results span{
     display: block;
     font-size: 30px;
+    font-weight: bold;
     text-align: center;
+    margin-bottom: 30px;
 }
 .again{
     display: block;
